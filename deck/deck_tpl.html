@@ -1,0 +1,231 @@
+<title>Hakiki Sunumu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Düzen: tek tek açılan slaytlar; her slayt bir "mühür" kartı. Altta sabit gezinme, "Tümü" ile alt alta okunur. */
+:root{--bg:#e7ecef;--surface:#fff;--surface2:#f1f5f7;--ink:#14202b;--ink2:#4e5d6a;--line:#cbd5dc;--seal:#0a6b5c;--seal-ink:#fff;--seal-soft:#d5eee8;--warn:#9a5806;--warn-soft:#fbe7c6;--bad:#b3261e;--bad-soft:#fbdcd8;--focus:#f5b800;
+ --f-disp:'Archivo','Arial Narrow',system-ui,sans-serif;--f-body:'Source Sans 3','Segoe UI',system-ui,sans-serif;--f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1418;--surface:#15202a;--surface2:#1c2a35;--ink:#e8eef2;--ink2:#a4b3be;--line:#2a3946;--seal:#5fd3bb;--seal-ink:#04211b;--seal-soft:#12372f;--warn:#f3b35c;--warn-soft:#3a2a0e;--bad:#ff9d93;--bad-soft:#46201c;--focus:#ffd24a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1418;--surface:#15202a;--surface2:#1c2a35;--ink:#e8eef2;--ink2:#a4b3be;--line:#2a3946;--seal:#5fd3bb;--seal-ink:#04211b;--seal-soft:#12372f;--warn:#f3b35c;--warn-soft:#3a2a0e;--bad:#ff9d93;--bad-soft:#46201c;--focus:#ffd24a;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 var(--f-body);padding-inline:16px;padding-block:14px 100px}
+.wrap{max-width:1000px;margin:0 auto}
+.slide{display:none;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:30px 30px 32px;min-height:min(560px,70vh)}
+.slide.on,.all .slide{display:block}.all .slide{margin-bottom:20px}
+.slide>*+*{margin-top:16px}
+.k{font:700 .78rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--seal)}
+h1{font:800 clamp(2.6rem,9vw,5rem)/1 var(--f-disp);margin:0;letter-spacing:-.03em}
+h2{font:800 clamp(1.6rem,4.6vw,2.3rem)/1.12 var(--f-disp);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h3{font:700 1.1rem/1.25 var(--f-disp);margin:0}
+p{margin:0;max-width:68ch}.mute{color:var(--ink2)}.small{font-size:.9rem}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--surface2);border:1.5px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.card>*+*{margin-top:8px}.card.seal{background:var(--seal-soft);border-color:var(--seal)}.card.warn{background:var(--warn-soft);border-color:var(--warn)}
+.shot{display:block;width:100%;max-width:290px;border-radius:16px;border:1.5px solid var(--line);margin-inline:auto}
+.cap{font-size:.85rem;color:var(--ink2);text-align:center;margin-top:8px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{border-bottom:1.5px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{font:700 .85rem var(--f-disp);color:var(--ink2)}
+td.h,th.h{background:var(--seal-soft)}
+.tag{display:inline-block;border-radius:999px;padding:1px 10px;font:700 .72rem var(--f-body);letter-spacing:.05em;text-transform:uppercase;background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn)}
+.tag.ok{background:var(--seal-soft);color:var(--seal);border-color:var(--seal)}.tag.no{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+ul{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:6px}
+.tl{display:flex;flex-direction:column;gap:0;border-left:3px solid var(--seal);margin-left:6px}
+.tl>div{padding:6px 0 12px 18px;position:relative}.tl>div::before{content:"";position:absolute;left:-9.5px;top:12px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--seal)}
+.tl b{font:700 .85rem var(--f-mono);color:var(--seal);display:block}
+.mono{font-family:var(--f-mono);font-size:.88rem;background:var(--surface2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;white-space:pre}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.flow b{border:1.5px solid var(--seal);background:var(--seal-soft);border-radius:12px;padding:6px 14px;font:700 1rem var(--f-disp)}.flow i{font-style:normal;color:var(--seal);font:800 1.3rem var(--f-disp)}
+a{color:var(--seal)}
+.nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;align-items:center;justify-content:center;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1.5px solid var(--line);z-index:5;flex-wrap:wrap}
+.nav button{border:0;border-radius:12px;background:var(--seal);color:var(--seal-ink);font:700 1rem var(--f-disp);padding:8px 18px;cursor:pointer;min-height:44px}
+.nav button.alt{background:var(--surface2);color:var(--ink);border:1.5px solid var(--line)}
+.nav .c{font:700 .95rem var(--f-disp);color:var(--ink2);min-width:64px;text-align:center}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+@media (max-width:560px){.slide{padding:22px 16px 24px}}
+</style>
+<div class="wrap" lang="tr" id="deck">
+
+<section class="slide on" id="s1">
+ <div class="k">YC Fall 2026 RFS · “Proving You’re Human” · Türkiye sürümü</div>
+ <h1>Hakiki</h1>
+ <h2>Karşındaki gerçekten o mu? Yakınlarınla ikinizin bildiği bir anahtarla kanıtla.</h2>
+ <p>Ses klonlama ve deepfake çağında, önceden eşleşmiş iki kişinin birbirini internetsiz, kameranın ve yüz verisinin dışında doğrulamasını sağlayan Türkçe bir güven katmanı. Çalışan prototip yayında.</p>
+ <div class="flow"><b>Kod</b><b>Soru-cevap</b><b>Baskı kodu</b><b>Dolandırıcılık eğitimi</b><b>Acil rehber</b></div>
+ <p class="small mute">Ekim 2026 · Ürün sunumu</p>
+</section>
+
+<section class="slide" id="s2">
+ <div class="k">Seçim</div>
+ <h2>“Deprem”i nasıl tanımladık ve ne bulduk</h2>
+ <p>Teknolojik deprem: sektörün güven, yetki ya da maliyet varsayımını sarsan bir kırılma. Bunu iki yerden aradık.</p>
+ <div class="grid g2">
+  <div class="card warn"><h3>Hacker News</h3><p>Fall 2026 RFS yazısı HN’de <b>2 puan, 0 yorum</b> aldı (Algolia kaydı, 25 Temmuz 2026). HN sinyali bir sarsıntı göstermiyor; bu yüzden tek ölçüt olarak kullanmadık.</p></div>
+  <div class="card seal"><h3>Gerçek dünya etkisi</h3><p>Belgelenmiş zarar, büyük bir platformun harekete geçmesi ve aynı yıl çıkan ürünler. “Proving You’re Human” bu üç kanıtı birlikte taşıyan tek RFS maddesi oldu.</p></div>
+ </div>
+ <p class="small mute">Dürüst not: Diğer 12 isteği bu derinlikte araştırmadım. Seçim, bu kanıtlara ve Türkiye’ye uyarlanabilirliğe dayanıyor. Bir önceki denemem olan “The Primer” (Hece) ayrı bir ürün olarak duruyor ve “deprem” değil, “büyük boş alan” olarak sınıflandı.</p>
+</section>
+
+<section class="slide" id="s3">
+ <div class="k">Kanıt</div>
+ <h2>Sorun artık teorik değil: tarih sırasıyla</h2>
+ <div class="tl">
+  <div><b>2024 başı</b>Arup: sahte kimliklerle yapılan video görüşmede yaklaşık 38 milyon Avustralya doları kaybı bildirildi.</div>
+  <div><b>11 Şubat 2026</b>Osmaniye: devlet yetkililerinin deepfake görüntü ve sesleriyle sahte yatırım reklamları. <b style="display:inline">410 milyon TL</b> zarar, 8 şüpheli yakalandı, 5’i tutuklandı.</div>
+  <div><b>17 Nisan 2026</b>Zoom ve World, toplantılarda “Verified Human” etiketi sunan insan doğrulamayı başlattı.</div>
+  <div><b>24 Mayıs 2026</b>Dokuz ilde operasyon: sahte yatırım reklamlarında deepfake kullanan ağda 16 şüpheli, 11 tutuklu.</div>
+  <div><b>12–13 Haziran 2026</b>Zonguldak: akrabaları taklit eden yapay zekâ ses klonlama dolandırıcılığı.</div>
+  <div><b>3 Eylül 2026</b>Trust Onion, dönen aile kod kelimeleriyle ücretsiz olarak yayında.</div>
+ </div>
+</section>
+
+<section class="slide" id="s4">
+ <div class="k">YC isteği</div>
+ <h2>“İnternetin güven katmanını yeniden kurmak”</h2>
+ <div class="grid g2">
+  <div class="card"><h3>YC ne diyor? (Max Kolysh)</h3><ul><li>Sahte video görüşmede bir finans çalışanı 25 milyon dolar gönderdi; görüşmedeki herkes deepfake’ti.</li><li>Sesi ve yüzü taklit etmek ucuzlaştı; eski güven işaretleri geçerli değil.</li><li>İstenen: bir çağrıda, mesajda ya da işlemde “karşıda doğrulanmış bir insan var” bilgisi.</li><li>Tercih: gizliliği feda ettirmeyen bir çözüm.</li></ul></div>
+  <div class="card seal"><h3>Hakiki’nin dar kapsamı</h3><p>Herkesi herkese karşı doğrulamıyoruz. Önceden eşleşmiş iki kişi arasındaki güveni sağlıyoruz: aile, yakın arkadaş, çalışma ekibi. Bu, deepfake dolandırıcılığının en acı verici biçimini (tanıdığın biri gibi davranan aramalar) hedefliyor.</p><p class="small mute">Bilinmeyen kişileri doğrulama (bot hesaplar, yabancılar) bu prototipin kapsamı dışında.</p></div>
+ </div>
+</section>
+
+<section class="slide" id="s5">
+ <div class="k">Rekabet</div>
+ <h2>Klon çekirdeği var; boşluk Türkçe ve tam akışta</h2>
+ <div class="tw"><table>
+  <tr><th></th><th>World ID + Zoom</th><th>Trust Onion</th><th>Codeword</th><th class="h">Hakiki</th></tr>
+  <tr><td>Yöntem</td><td>Biyometrik yüz ve Orb kaydı</td><td>Dönen kod kelimeleri (60 sn), selfie “Proofie”</td><td>Dönen kod kelimeleri, QR eşleşme</td><td class="h">Paylaşılan sır, 30 sn dönen 6 haneli kod</td></tr>
+  <tr><td>Kamera ve yüz verisi</td><td>Gerekli</td><td>Selfie özelliği var</td><td>QR için kamera</td><td class="h"><span class="tag ok">Gerekmiyor</span></td></tr>
+  <tr><td>Türkçe</td><td>Doğrulanmadı</td><td>Çok dilli; Türkçe doğrulanmadı</td><td><span class="tag no">Yalnızca İngilizce</span></td><td class="h"><span class="tag ok">Türkçe öncelikli</span></td></tr>
+  <tr><td>Para isteğinde soru-cevap</td><td>—</td><td>Kaynaklarda yok</td><td>Kaynaklarda yok</td><td class="h"><span class="tag ok">Var</span></td></tr>
+  <tr><td>Baskı kodu</td><td>—</td><td>Kaynaklarda yok</td><td>Kaynaklarda yok</td><td class="h"><span class="tag ok">Var</span></td></tr>
+  <tr><td>Yöne bağlı kodlar</td><td>—</td><td>Kaynaklarda yok</td><td>Kaynaklarda yok</td><td class="h"><span class="tag ok">Var</span></td></tr>
+  <tr><td>Yerel eğitim ve acil rehber</td><td>—</td><td>“Scam Check” aracı</td><td>—</td><td class="h"><span class="tag ok">Türkiye senaryoları</span></td></tr>
+ </table></div>
+ <p class="small mute">“Kaynaklarda yok”, uygulamanın bu özelliğe sahip olmadığı anlamına gelmez; yalnızca tanıtım metinlerinde yer almıyor. Trust Onion ve Codeword’ün tüm özelliklerini bizzat denemedim.</p>
+</section>
+
+<section class="slide" id="s6">
+ <div class="k">Ürün</div>
+ <h2>Arama sürerken doğrulama</h2>
+ <div class="grid g3" style="align-items:start">
+  <div><img class="shot" alt="Hakiki ana ekranı: Karşımdakini doğrula ve Kendi kodumu göster düğmeleri, güven çevresi" src="__IMG_CIRCLE__"><div class="cap">Güven çevrem</div></div>
+  <div><img class="shot" alt="Kendi kodum ekranı: 6 haneli kod ve 30 saniyelik süre çubuğu" src="__IMG_MINE__"><div class="cap">Kendi kodum, 30 sn’de bir yenilenir</div></div>
+  <div><img class="shot" alt="Doğrulama sonucu: DOĞRULANDI mührü" src="__IMG_OK__"><div class="cap">Sonuç mühür olarak basılır</div></div>
+ </div>
+</section>
+
+<section class="slide" id="s7">
+ <div class="k">Nasıl çalışır</div>
+ <h2>Sunucusuz, hesapsız, standart kriptografi</h2>
+ <div class="flow"><b>Yüz yüze eşleşme</b><i>→</i><b>Ortak 160 bit sır</b><i>→</i><b>HMAC-SHA-256</b><i>→</i><b>6 haneli kod / 30 sn</b></div>
+ <div class="grid g2">
+  <div class="card"><h3>Eşleşme</h3><ul><li>Davet eden cihaz rastgele 20 baytlık sır üretir; kod 36 karakter, sağlama toplamlı.</li><li>İki cihaz üç kelimelik parmak izini karşılaştırır.</li><li>Sır internete çıkmaz; kod elle ya da güvenli kanaldan aktarılır.</li></ul></div>
+  <div class="card"><h3>Doğrulama</h3><ul><li>Her yön için ayrı anahtar: kendi kodunu geri okutma (yansıtma) reddedilir.</li><li>±30 saniye saat farkı tolere edilir.</li><li>3 yanlış denemede 30 saniye kilit.</li><li>İsteğe bağlı PIN: depo AES-GCM ile şifrelenir (PBKDF2, 150.000 tur).</li></ul></div>
+ </div>
+ <div class="card seal"><h3>Test kanıtı</h3><p class="small">Kod üretimi, RFC 6238 resmî test vektörlerinin altısıyla (SHA-1, 8 hane) doğrulandı; base32, davet kodu gidiş-dönüşü, yazım hatası yakalama, yön bağlama, baskı kodu ve PIN şifreleme testleri geçti. Tarayıcıda uçtan uca akış testi: iki cihaz arası doğrulama, kilitleme, soru-cevap, baskı kodu, PIN.</p></div>
+</section>
+
+<section class="slide" id="s8">
+ <div class="k">Yenilik</div>
+ <h2>Klonun üstüne beş yeni katman</h2>
+ <div class="grid g2">
+  <div class="card"><h3>1. Soru-cevap</h3><p>Para ya da işlem istendiğinde kod yetmez. Doğrulayan 6 haneli bir soru üretir, karşı taraf kendi uygulamasında cevabı hesaplar. Cevap o soruya özgüdür ve tekrar kullanılamaz.</p></div>
+  <div class="card"><h3>2. Baskı kodu</h3><p>Biri sizi zorluyorsa normal kod yerine ikinci kodu söylersiniz. Karşı taraf “Dikkat” mührü görür ve 155’e yönlendirilir.</p></div>
+  <div class="card"><h3>3. Yöne bağlı kodlar</h3><p>İki taraf farklı kod üretir. Dolandırıcı, sizin kodunuzu size geri okutup doğrulama geçemez.</p></div>
+  <div class="card"><h3>4. Kameraya ve yüze ihtiyaç yok</h3><p>YC’nin “gizliliği feda ettirmeyen” isteğine karşılık: kimlik belgesi, selfie, ses kaydı ve konum kullanılmaz.</p></div>
+  <div class="card seal" style="grid-column:1/-1"><h3>5. Doğrulamadan eğitime ve bildirime</h3><p>Altı Türkiye senaryosu, acil durum rehberi ve başvuru için hazır bildirim notu tek uygulamada.</p></div>
+ </div>
+</section>
+
+<section class="slide" id="s9">
+ <div class="k">Yerelleştirme</div>
+ <h2>Türkiye’nin dolandırıcılık gerçeklerine göre yazıldı</h2>
+ <div class="grid g2">
+  <div class="card"><h3>Dil ve biçim</h3><ul><li>Tüm arayüz ve metinler Türkçe; 11 yakınlık seçeneği (anne, ağabey/abla, dayı/amca/hala/teyze…).</li><li>Büyük yazı modu, açık ve koyu tema.</li><li>Sesli okuma (cihazın Türkçe sesi varsa).</li></ul></div>
+  <div class="card"><h3>Yerel senaryolar</h3><ul><li>“Savcılıktan arıyoruz”, “Bankadan arıyoruz” (SMS kodu).</li><li>“Anne, kaza yaptım” ses klonlama.</li><li>Devlet yetkilisi görünümlü deepfake yatırım reklamı.</li><li>“Numaram değişti” mesajı, video görüşmede müdür.</li></ul></div>
+  <div class="card"><h3>Kurumlara bağlı rehber</h3><ul><li>Bankalar ve resmî kurumlar telefonla para, şifre ya da SMS kodu istemez (Türkiye Bankalar Birliği, İş Bankası).</li><li>Polis 155, jandarma, Cumhuriyet Başsavcılığı, e-Devlet, BTK İhbar Merkezi.</li></ul></div>
+  <div class="card warn"><h3>Not</h3><p class="small">Senaryo metinleri bu çalışmada yazıldı; gerçek olaylardan esinlenen genel örüntüler. Bir hukuk ve güvenlik uzmanı gözden geçirmedi.</p></div>
+ </div>
+</section>
+
+<section class="slide" id="s10">
+ <div class="k">Eğitim modülü</div>
+ <h2>Önce tanı, sonra doğrula</h2>
+ <div class="grid g2" style="align-items:center">
+  <div><img class="shot" alt="Eğitim senaryosu: Anne kaza yaptım; seçenekler ve açıklama" src="__IMG_TRAIN__"></div>
+  <div><ul><li>Altı senaryo, her biri bir dakikalık.</li><li>Seçenekler karışık sırayla; yanlış seçilince neden yanlış olduğu ve doğru cevabın açıklaması gösterilir.</li><li>Her senaryo bir derse ve bir kaynağa bağlı.</li><li>Sesli oku düğmesi, yaşlı yakınlar için.</li></ul><p class="small mute" style="margin-top:12px">Ders içeriği, kod doğrulamasının kapsamadığı durumlar (bilinmeyen arayan, sahte yatırım reklamı) için de koruma sağlar.</p></div>
+ </div>
+</section>
+
+<section class="slide" id="s11">
+ <div class="k">Güven modeli</div>
+ <h2>Neyi çözüyor, neyi çözmüyor</h2>
+ <div class="grid g2">
+  <div class="card seal"><h3>Çözdüğü</h3><ul><li>Ses ya da yüz klonlayan ve tanıdık biri gibi davranan arayan.</li><li>Kimlik bilgisini sosyal medyadan toplayan taklitçi.</li><li>Kendi kodunu geri okutma.</li></ul></div>
+  <div class="card warn"><h3>Çözmediği</h3><ul><li>Önceden eşleşmemiş kişiler (banka, savcı, yabancı). Bu durumlar için eğitim modülü var.</li><li>Telefonu ele geçirilmiş ya da zorlanan kişi (PIN ve baskı kodu kısmen azaltır).</li><li>Aracı saldırıları: gerçek kişiyle aynı anda konuşan bir saldırgan.</li><li>İki cihaz saati 1 dakikadan fazla sapmışsa kod uyuşmaz.</li><li>Davet kodunu dolandırıcının görebildiği kanaldan paylaşmak eşleşmeyi bozar.</li></ul></div>
+ </div>
+ <p class="small mute">Bağımsız bir güvenlik denetimi yapılmadı. Kriptografi standart ilkellere dayanıyor, ama uygulama bir prototip. Yayına çıkmadan önce denetim şart.</p>
+</section>
+
+<section class="slide" id="s12">
+ <div class="k">Kitle ve model</div>
+ <h2>Önce aileler, sonra kurumlar (hipotez)</h2>
+ <div class="grid g2">
+  <div class="card"><h3>Kitle</h3><p>Türkiye nüfusu 86.092.168 (TÜİK, 2025). Aile içi doğrulama için telefonu olan herkes potansiyel kullanıcı; ürün, eşleşme arttıkça değer kazanan bir ağ etkisi taşıyor (iki kişi gerekir).</p><p class="small mute">65 yaş ve üzeri nüfus yaklaşık 9,4 milyon; büyük yazı modu bu kitle için eklendi. Bu grubun dolandırıcılığa daha çok maruz kaldığını gösteren bir veriye bu çalışmada ulaşmadım.</p></div>
+  <div class="card"><h3>Gelir hipotezleri</h3><ul><li>Bireysel kullanım ücretsiz kalır; eşleşme sayısı büyür.</li><li>Bankalar ve operatörler için “müşteriyi arayan gerçekten biz miyiz?” akışı (kurumlar için soru-cevap).</li><li>Şirketler için yönetici talimatı doğrulama paketi.</li></ul><p class="small mute">Bu görüşme ve fiyat testiyle desteklenmedi; sayı vermiyorum.</p></div>
+ </div>
+</section>
+
+<section class="slide" id="s13">
+ <div class="k">Durum</div>
+ <h2>Bugün ne var, sırada ne var</h2>
+ <div class="grid g2">
+  <div class="card"><h3>Çalışıyor</h3><ul><li>Eşleşme, kod, soru-cevap, baskı kodu</li><li>PIN şifreleme, kilit ekranı, yedek kod</li><li>Altı eğitim senaryosu, acil rehber, bildirim notu</li><li>Açık/koyu tema, büyük yazı, mobil uyum</li></ul></div>
+  <div class="card warn"><h3>Sınırlar</h3><ul><li>Tarayıcıda çalışır; arka plan bildirimi ve çağrı entegrasyonu yok.</li><li>Veri tarayıcıda tutulur; tarayıcı verisi silinirse yedek kod gerekir.</li><li>QR yok (artifact içinde kamera kullanılamıyor).</li><li>Gerçek kullanıcı testi yapılmadı.</li></ul></div>
+ </div>
+ <div class="flow"><b>1. Güvenlik denetimi</b><i>→</i><b>2. 20 aile pilotu</b><i>→</i><b>3. Yerel mobil uygulama, QR eşleşme</b><i>→</i><b>4. Kurumsal doğrulama API’si</b></div>
+</section>
+
+<section class="slide" id="s14">
+ <div class="k">Değerlendirme eşlemesi</div>
+ <h2>Ölçütlere karşılık gelen kanıtlar</h2>
+ <div class="tw"><table>
+  <tr><th>Ölçüt</th><th>Kanıt</th></tr>
+  <tr><td><b>Deprem niteliği</b></td><td>RFS maddesi, belgelenmiş zarar (410 milyon TL, Arup), Zoom ve World’ün Nisan 2026 hamlesi, aynı yıl çıkan rakip ürünler. HN verisinin zayıf olduğu açıkça belirtildi.</td></tr>
+  <tr><td><b>Klon çekirdeği</b></td><td>Paylaşılan sırdan dönen kodlar: eşleşme, doğrulama, süre penceresi; RFC 6238 vektörleriyle doğrulandı.</td></tr>
+  <tr><td><b>Yerelleştirme / bölgeselleştirme</b></td><td>Türkçe arayüz, TL ve 155, bankalar ve resmî kurum uyarılarına bağlı senaryolar, BTK ve e-Devlet yönlendirmesi.</td></tr>
+  <tr><td><b>Yenilik</b></td><td>Soru-cevap, baskı kodu, yöne bağlı kodlar, kamerasız ve yüzsüz doğrulama, bildirim notu.</td></tr>
+  <tr><td><b>Tam ürün</b></td><td>Kurulum, eşleşme, doğrulama, eğitim, acil rehber, ayarlar, PIN kilidi, tema, mobil uyum; uçtan uca test geçti.</td></tr>
+ </table></div>
+</section>
+
+<section class="slide" id="s15">
+ <div class="k">Kaynaklar</div>
+ <h2>Kaynaklar</h2>
+ <ul class="small">
+  <li><a href="https://www.ycombinator.com/rfs#proving-youre-human" target="_blank" rel="noopener">Y Combinator, Requests for Startups, Fall 2026: Proving You’re Human (Max Kolysh)</a></li>
+  <li><a href="https://hn.algolia.com/api/v1/search?query=Requests%20for%20Startups%20Fall%202026&tags=story" target="_blank" rel="noopener">Hacker News (Algolia): Fall 2026 RFS gönderisi, 2 puan, 0 yorum</a></li>
+  <li><a href="https://www.channelnews.com.au/zoom-introduces-human-verification-feature-amid-rising-deepfake-threats/" target="_blank" rel="noopener">ChannelNews: Zoom ve World insan doğrulama (17 Nisan 2026), Arup vakası</a></li>
+  <li><a href="https://oecd.ai/en/incidents/2026-02-11-a158" target="_blank" rel="noopener">OECD.AI: Osmaniye deepfake yatırım dolandırıcılığı, 410 milyon TL (Şubat 2026)</a></li>
+  <li><a href="https://oecd.ai/en/incidents/2026-05-24-3e4f" target="_blank" rel="noopener">OECD.AI: dokuz ilde deepfake operasyonu (Mayıs 2026)</a></li>
+  <li><a href="https://oecd.ai/en/incidents/2026-06-12-17d0" target="_blank" rel="noopener">OECD.AI: Zonguldak ses klonlama dolandırıcılığı (Haziran 2026)</a></li>
+  <li><a href="https://kdhnews.com/online_features/press_releases/new-free-app-trust-onion-uses-rotating-family-codewords-to-stop-ai-voice-cloning-scams/article_3fa63ea6-870e-5104-a8d1-2f554005b271.html" target="_blank" rel="noopener">Trust Onion tanıtımı (3 Eylül 2026)</a></li>
+  <li><a href="https://apps.apple.com/lc/app/codeword-2fa-for-people/id6477622766" target="_blank" rel="noopener">Codeword: 2FA for People (App Store)</a></li>
+  <li><a href="https://www.chip.com.tr/galeri/ses-klonlama-dolandiriciliklarina-karsi-guvenlik-kelimesi-onerisi_183694.html" target="_blank" rel="noopener">Chip Türkiye: ses klonlamaya karşı güvenlik kelimesi önerisi</a></li>
+  <li><a href="https://www.isbank.com.tr/blog/telefon-dolandiriciligi-nasil-anlasilir" target="_blank" rel="noopener">İş Bankası: telefon dolandırıcılığı nasıl anlaşılır</a></li>
+  <li><a href="https://www.bloomberght.com/turkiye-bankalar-birligi-nden-dijital-dolandiricilik-uyarisi-2362178" target="_blank" rel="noopener">Bloomberg HT: Türkiye Bankalar Birliği dijital dolandırıcılık uyarısı</a></li>
+  <li><a href="https://www.forbes.com.tr/haberler/turkiye-nufusu-86-milyonu-asti-cocuk-orani-azaliyor-ortanca-yas-yukseliyor" target="_blank" rel="noopener">Forbes Türkiye: TÜİK 2025 nüfus verileri</a></li>
+  <li><a href="https://www.ensonhaber.com/turkiye-nufusu-yaslaniyor-cocuk-sayisi-azaliyor-yasli-nufus-artiyor-h1462209" target="_blank" rel="noopener">Ensonhaber: TÜİK dönemlik nüfus, 65 yaş ve üzeri</a></li>
+ </ul>
+</section>
+</div>
+<div class="nav" role="navigation" aria-label="Slayt gezinme">
+ <button class="alt" id="pv" aria-label="Önceki slayt">← Önceki</button><span class="c" id="ct">1 / 15</span><button id="nx" aria-label="Sonraki slayt">Sonraki →</button><button class="alt" id="al">Tümü</button>
+</div>
+<script>
+(function(){var S=[].slice.call(document.querySelectorAll('.slide')),i=0,all=false;
+function show(n,noh){i=Math.max(0,Math.min(S.length-1,n));S.forEach(function(s,k){s.classList.toggle('on',k===i);});document.getElementById('ct').textContent=(i+1)+' / '+S.length;if(!noh){try{history.replaceState(null,'','#s'+(i+1));}catch(e){}}if(!all)window.scrollTo(0,0);}
+document.getElementById('pv').onclick=function(){show(i-1)};document.getElementById('nx').onclick=function(){show(i+1)};
+document.getElementById('al').onclick=function(e){all=!all;document.getElementById('deck').classList.toggle('all',all);e.target.textContent=all?'Tek tek':'Tümü';};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='PageDown')show(i+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);});
+var m=/^#s(\d+)$/.exec(location.hash);if(m)show(+m[1]-1,true);})();
+</script>
